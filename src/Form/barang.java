@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Form;
-import Form.kasir;
+import Form.barang;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,13 +14,13 @@ import Koneksi.koneksi;
  *
  * @author Raseuki
  */
-public class kasir extends javax.swing.JFrame {
+public class barang extends javax.swing.JFrame {
 private Connection conn = new koneksi().connect();
 private DefaultTableModel tabmode;
     /**
-     * Creates new form kasir
+     * Creates new form barang
      */
-    public kasir() {
+    public barang() {
         initComponents();
         kosong();
         aktif();
@@ -28,28 +28,28 @@ private DefaultTableModel tabmode;
     }
     
     protected void aktif(){
-        txtid.requestFocus();
+        txtkd.requestFocus();
+        cbjenis.setSelectedItem(null);
     }
     
     protected void kosong(){
-        txtid.setText("");
+        txtkd.setText("");
         txtnm.setText("");
-        txtagm.setText("");
-        txttelp.setText("");
-        txtalamat.setText("");
-        txtpass.setText("");
+        txtbeli.setText("");
+        txtjual.setText("");
         txtcari.setText("");
+        cbjenis.setSelectedItem(null);
         buttonGroup1.clearSelection();
     }
     
     protected void datatable(){
-        Object[] Baris ={"ID Kasir", "Nama", "Jenis Kelamin","Agama", "No. Telepon", "Alamat", "Password"};
+        Object[] Baris ={"Kode Barang", "Nama Barang", "Jenis Barang","Harga Beli", "Harga jual"};
         tabmode = new DefaultTableModel(null, Baris);
         //tablebarang.setModel(tabmode);
         String cariitem=txtcari.getText();
         
         try {
-            String sql = "SELECT * FROM kasir where idksr like '%"+cariitem+"%' or nmksr like '%"+cariitem+"%' order by idksr asc";
+            String sql = "SELECT * FROM barang where kode like '%"+cariitem+"%' or nama like '%"+cariitem+"%' order by kode asc";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()){
@@ -58,12 +58,10 @@ private DefaultTableModel tabmode;
                 hasil.getString(2),
                 hasil.getString(3),
                 hasil.getString(4),
-                hasil.getString(5),
-                hasil.getString(6),
-                hasil.getString(7)
+                hasil.getString(5)
             });
             }
-            tblplgn.setModel(tabmode);
+            tblbrg.setModel(tabmode);
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "data gagal dipanggil"+e);
         }
@@ -80,21 +78,15 @@ private DefaultTableModel tabmode;
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtid = new javax.swing.JTextField();
+        txtkd = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtnm = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        rlaki = new javax.swing.JRadioButton();
-        rperempuan = new javax.swing.JRadioButton();
-        jLabel4 = new javax.swing.JLabel();
-        txttelp = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtalamat = new javax.swing.JTextArea();
-        jLabel7 = new javax.swing.JLabel();
-        txtagm = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtpass = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtbeli = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtjual = new javax.swing.JTextField();
+        cbjenis = new javax.swing.JComboBox<>();
         bsimpan = new javax.swing.JButton();
         bubah = new javax.swing.JButton();
         bhapus = new javax.swing.JButton();
@@ -104,23 +96,23 @@ private DefaultTableModel tabmode;
         txtcari = new javax.swing.JTextField();
         bcari = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblplgn = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
+        tblbrg = new javax.swing.JTable();
+        lbrg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setText("ID Kasir");
+        jLabel1.setText("Kode Barang");
 
-        txtid.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtid.addActionListener(new java.awt.event.ActionListener() {
+        txtkd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtkd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtidActionPerformed(evt);
+                txtkdActionPerformed(evt);
             }
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Nama Kasir");
+        jLabel2.setText("Nama Barang");
 
         txtnm.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtnm.addActionListener(new java.awt.event.ActionListener() {
@@ -130,60 +122,29 @@ private DefaultTableModel tabmode;
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setText("Jenis Kelamin");
+        jLabel3.setText("Jenis Barang");
 
-        buttonGroup1.add(rlaki);
-        rlaki.setText("Laki-Laki");
-        rlaki.addActionListener(new java.awt.event.ActionListener() {
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel9.setText("Harga Beli");
+
+        txtbeli.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtbeli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rlakiActionPerformed(evt);
+                txtbeliActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(rperempuan);
-        rperempuan.setText("Perempuan");
-        rperempuan.addActionListener(new java.awt.event.ActionListener() {
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel10.setText("Harga Jual");
+
+        txtjual.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtjual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rperempuanActionPerformed(evt);
+                txtjualActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setText("No. Telepon");
-
-        txttelp.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txttelp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txttelpActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel5.setText("Alamat");
-
-        txtalamat.setColumns(20);
-        txtalamat.setRows(5);
-        jScrollPane1.setViewportView(txtalamat);
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel7.setText("Agama");
-
-        txtagm.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtagm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtagmActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel8.setText("Password");
-
-        txtpass.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtpass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtpassActionPerformed(evt);
-            }
-        });
+        cbjenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "iphone 15 PROMAX", "SAMSUNG GALAXY S24 SERIES", "Xiaomi 14T", "OPPO Flip Z" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -192,38 +153,21 @@ private DefaultTableModel tabmode;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtagm)
-                                .addGap(125, 125, 125))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtid, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                                        .addComponent(txtnm))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(rlaki)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rperempuan)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txttelp)
-                                    .addComponent(txtpass))
-                                .addGap(36, 36, 36))))))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtbeli)
+                        .addComponent(txtjual, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtkd, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                        .addComponent(txtnm))
+                    .addComponent(cbjenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +175,7 @@ private DefaultTableModel tabmode;
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtkd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -239,29 +183,16 @@ private DefaultTableModel tabmode;
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(rlaki)
-                    .addComponent(rperempuan))
+                    .addComponent(cbjenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtagm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txttelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9)
+                    .addComponent(txtbeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addGap(26, 26, 26))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(26, Short.MAX_VALUE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtjual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         bsimpan.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -304,7 +235,7 @@ private DefaultTableModel tabmode;
             }
         });
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Data Kasir"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Data Barang"));
         jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel2MouseClicked(evt);
@@ -331,7 +262,7 @@ private DefaultTableModel tabmode;
             }
         });
 
-        tblplgn.setModel(new javax.swing.table.DefaultTableModel(
+        tblbrg.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -342,12 +273,12 @@ private DefaultTableModel tabmode;
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblplgn.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblbrg.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblplgnMouseClicked(evt);
+                tblbrgMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tblplgn);
+        jScrollPane3.setViewportView(tblbrg);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -371,13 +302,13 @@ private DefaultTableModel tabmode;
                     .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bcari))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(350, Short.MAX_VALUE))
         );
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Data Kasir");
+        lbrg.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lbrg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbrg.setText("Data Barang");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -400,9 +331,9 @@ private DefaultTableModel tabmode;
                 .addGap(22, 22, 22))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbrg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -411,10 +342,10 @@ private DefaultTableModel tabmode;
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
+                .addComponent(lbrg)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(194, 194, 194)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bsimpan)
                     .addComponent(bubah)
@@ -428,33 +359,21 @@ private DefaultTableModel tabmode;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rperempuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rperempuanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rperempuanActionPerformed
-
     private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bsimpanActionPerformed
         // TODO add your handling code here:
-        String jenis = null;
-        if(rlaki.isSelected()){
-            jenis = "Laki-Laki";
-        }else if(rperempuan.isSelected()){
-            jenis = "Perempuan";
-        }
-        String sql = "insert into kasir values (?,?,?,?,?,?,?)";
+        String sql = "insert into barang values (?,?,?,?,?)";
         try{
             PreparedStatement stat = conn.prepareStatement(sql);
-            stat.setString(1, txtid.getText());
+            stat.setString(1, txtkd.getText());
             stat.setString(2, txtnm.getText());
-            stat.setString(3, jenis);
-            stat.setString(4, txtagm.getText());
-            stat.setString(5, txttelp.getText());
-            stat.setString(6, txtalamat.getText());
-            stat.setString(7, txtpass.getText());
+            stat.setString(3, cbjenis.getSelectedItem().toString());
+            stat.setString(4, txtbeli.getText());
+            stat.setString(5, txtjual.getText());
             
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null,"data berhasil disimpan");
             kosong();
-            txtid.requestFocus();
+            txtkd.requestFocus();
         }
         catch (SQLException e){
             JOptionPane.showMessageDialog(null,"data gagal disimpan"+e);
@@ -464,26 +383,20 @@ private DefaultTableModel tabmode;
 
     private void bubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bubahActionPerformed
         // TODO add your handling code here:
-        String jenis = null;
-        if(rlaki.isSelected()){
-            jenis = "Laki-Laki";
-        }else if(rperempuan.isSelected()){
-            jenis = "Perempuan";
-        }
         try{
-            String sql = "update kasir set nmksr=?,jenis=?,agama=?,telepon=?,alamat=?,password=? where idksr='"+txtid.getText()+"'";
+            String sql = "update barang set nama=?,jenisbrg=?,beli=?,jual=? where kode='"+txtkd.getText()+"'";
             PreparedStatement stat = conn.prepareStatement(sql);
             stat.setString(1, txtnm.getText());
-            stat.setString(2, jenis);
-            stat.setString(3, txtagm.getText());
-            stat.setString(4, txttelp.getText());
-            stat.setString(5, txtalamat.getText());
-            stat.setString(6, txtpass.getText());
+            stat.setString(2, cbjenis.getSelectedItem().toString());
+            stat.setString(3, txtbeli.getText());
+            stat.setString(4, txtjual.getText());
+            
+            
             
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null,"data berhasil diubah");
             kosong();
-            txtid.requestFocus();
+            txtkd.requestFocus();
         }
         catch (SQLException e){
             JOptionPane.showMessageDialog(null,"data gagal diubah"+e);
@@ -495,13 +408,13 @@ private DefaultTableModel tabmode;
         // TODO add your handling code here:
         int ok = JOptionPane.showConfirmDialog(null,"hapus", "konfirmasi dialog",JOptionPane.YES_NO_OPTION);
         if (ok==0){
-            String sql = "delete from kasir where idksr='"+txtid.getText()+"'";
+            String sql = "delete from barang where kode='"+txtkd.getText()+"'";
             try{
                 PreparedStatement stat = conn.prepareStatement(sql);
                 stat.executeUpdate();
                 JOptionPane.showMessageDialog(null, "data berhasil dihapus");
                 kosong();
-                txtid.requestFocus();
+                txtkd.requestFocus();
             }
             catch (SQLException e){
                 JOptionPane.showMessageDialog(null, "data gagal dihapus"+e);
@@ -525,30 +438,24 @@ private DefaultTableModel tabmode;
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel2MouseClicked
 
-    private void tblplgnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblplgnMouseClicked
+    private void tblbrgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblbrgMouseClicked
         // TODO add your handling code here:
-        int bar = tblplgn.getSelectedRow();
-        String a = tblplgn.getValueAt(bar, 0).toString();
-        String b = tblplgn.getValueAt(bar, 1).toString();
-        String c = tblplgn.getValueAt(bar, 2).toString();
-        String d = tblplgn.getValueAt(bar, 3).toString();
-        String e = tblplgn.getValueAt(bar, 4).toString();
-        String f = tblplgn.getValueAt(bar, 5).toString();
-        String g = tblplgn.getValueAt(bar, 6).toString();
+        int bar = tblbrg.getSelectedRow();
+        String a = tblbrg.getValueAt(bar, 0).toString();
+        String b = tblbrg.getValueAt(bar, 1).toString();
+        String c = tblbrg.getValueAt(bar, 2).toString();
+        String d = tblbrg.getValueAt(bar, 3).toString();
+        String e = tblbrg.getValueAt(bar, 4).toString();
         
-        txtid.setText(a);
+        txtkd.setText(a);
         txtnm.setText(b);
-        if ("Laki-Laki".equals(c)){
-            rlaki.setSelected(true);
-        } else{
-            rperempuan.setSelected(true);
-        }
-        txtagm.setText(d);
-        txttelp.setText(e);
-        txtalamat.setText(f);
-        txtpass.setText(g);
+        cbjenis.setSelectedItem(c);
+        txtbeli.setText(d);
+        txtjual.setText(e);
         
-    }//GEN-LAST:event_tblplgnMouseClicked
+        
+        
+    }//GEN-LAST:event_tblbrgMouseClicked
 
     private void bcariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcariActionPerformed
         // TODO add your handling code here:
@@ -562,33 +469,25 @@ private DefaultTableModel tabmode;
         }
     }//GEN-LAST:event_txtcariKeyPressed
 
-    private void txtidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidActionPerformed
+    private void txtcariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcariActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtidActionPerformed
+    }//GEN-LAST:event_txtcariActionPerformed
 
     private void txtnmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnmActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtnmActionPerformed
 
-    private void txtcariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcariActionPerformed
+    private void txtkdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtkdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtcariActionPerformed
+    }//GEN-LAST:event_txtkdActionPerformed
 
-    private void txttelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelpActionPerformed
+    private void txtbeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbeliActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txttelpActionPerformed
+    }//GEN-LAST:event_txtbeliActionPerformed
 
-    private void rlakiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rlakiActionPerformed
+    private void txtjualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtjualActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rlakiActionPerformed
-
-    private void txtagmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtagmActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtagmActionPerformed
-
-    private void txtpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtpassActionPerformed
+    }//GEN-LAST:event_txtjualActionPerformed
 
     /**
      * @param args the command line arguments
@@ -620,7 +519,7 @@ private DefaultTableModel tabmode;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new kasir().setVisible(true);
+                new barang().setVisible(true);
             }
         });
     }
@@ -633,27 +532,21 @@ private DefaultTableModel tabmode;
     private javax.swing.JButton bsimpan;
     private javax.swing.JButton bubah;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cbjenis;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JRadioButton rlaki;
-    private javax.swing.JRadioButton rperempuan;
-    private javax.swing.JTable tblplgn;
-    private javax.swing.JTextField txtagm;
-    private javax.swing.JTextArea txtalamat;
+    private javax.swing.JLabel lbrg;
+    private javax.swing.JTable tblbrg;
+    private javax.swing.JTextField txtbeli;
     private javax.swing.JTextField txtcari;
-    private javax.swing.JTextField txtid;
+    private javax.swing.JTextField txtjual;
+    private javax.swing.JTextField txtkd;
     private javax.swing.JTextField txtnm;
-    private javax.swing.JTextField txtpass;
-    private javax.swing.JTextField txttelp;
     // End of variables declaration//GEN-END:variables
 }
